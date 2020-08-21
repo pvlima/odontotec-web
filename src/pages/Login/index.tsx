@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Link } from 'react-router-dom';
 import { FiMail, FiLock } from 'react-icons/fi';
 
 import imgLogo from '../../assets/logo.svg';
@@ -25,6 +26,8 @@ const Login: React.FC = () => {
           />
 
           <Button>Entrar</Button>
+
+          <a href="/">Esqueci minha senha</a>
         </form>
       </Content>
     </Container>

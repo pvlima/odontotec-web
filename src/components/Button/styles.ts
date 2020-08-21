@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.button`
   width: 100%;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-primary);
   border-radius: 8px;
   margin-top: 16px;
   padding: 16px;
@@ -12,6 +12,6 @@ export const Container = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-bg-primary-shade);
+    background-color: var(--color-primary-shade);
   }
 `;

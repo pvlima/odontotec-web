@@ -19,12 +19,23 @@ export const Content = styled.div`
   }
 
   form {
-    margin-top: 64px;
+    margin: 64px 0 32px;
     width: 340px;
     text-align: center;
 
     h3 {
       margin-bottom: 24px;
+    }
+
+    > a {
+      display: block;
+      margin-top: 24px;
+      text-decoration: none;
+      color: var(--color-info);
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 `;
