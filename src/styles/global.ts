@@ -31,6 +31,7 @@ export default createGlobalStyle`
   :root {
     --color-bg: #f2f5f9;
     --color-bg-primary: #00628F;
+    --color-bg-primary-shade: #004e72;
     --color-bg-info: #ebf8ff;
     --color-bg-success: #e6fffa;
     --color-bg-error: #fddede;
