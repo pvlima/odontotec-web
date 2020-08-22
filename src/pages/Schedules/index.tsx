@@ -1,5 +1,7 @@
 import React from 'react';
 import { FiClock } from 'react-icons/fi';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 import {
   Container,
@@ -108,7 +110,34 @@ const Schedules: React.FC = () => {
               </div>
             </Schedule>
           </Appointments>
-          <Calendar>Aqui é o calendário</Calendar>
+
+          <Calendar>
+            <DayPicker
+              weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
+              fromMonth={new Date()}
+              disabledDays={[{ daysOfWeek: [0] }]}
+              modifiers={{
+                available: { daysOfWeek: [1, 2, 3, 4, 5, 6] },
+              }}
+              // onDayClick={handleDateChange}
+              // onMonthChange={handleMonthChange}
+              selectedDays={new Date()}
+              months={[
+                'Janeiro',
+                'Fevereiro',
+                'Março',
+                'Abril',
+                'Maio',
+                'Junho',
+                'Julho',
+                'Agosto',
+                'Setembro',
+                'Outubro',
+                'Novembro',
+                'Dezembro',
+              ]}
+            />
+          </Calendar>
         </Content>
       </Container>
     </>

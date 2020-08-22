@@ -135,14 +135,67 @@ export const Schedule = styled.div`
   }
 `;
 
-export const Calendar = styled.div`
-  width: 310px;
-  height: 310px;
-  background-color: #fff;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
+export const Calendar = styled.aside`
+  width: 340px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .DayPicker {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
+  }
+
+  .DayPicker-Caption {
+    color: var(--color-primary);
+  }
+
+  .DayPicker-Weekday {
+    color: var(--color-normal);
+    font-weight: 500;
+  }
+
+  .DayPicker-wrapper {
+    padding-bottom: 0;
+  }
+
+  .DayPicker,
+  .DayPicker-Month {
+    width: 100%;
+  }
+
+  .DayPicker-Month {
+    border-collapse: separate;
+    border-spacing: 8px;
+    margin: 16px;
+  }
+
+  .DayPicker-Day {
+    width: 32px;
+    height: 32px;
+  }
+
+  .DayPicker-Day--available:not(.DayPicker-Day--outside) {
+    background: var(--color-bg-info);
+    border-radius: 8px;
+    color: var(--color-primary);
+  }
+
+  .DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    background: #fff;
+  }
+
+  .DayPicker-Day--today {
+    font-weight: normal;
+  }
+
+  .DayPicker-Day--disabled {
+    color: var(--color-secondary) !important;
+    background: transparent !important;
+  }
+
+  .DayPicker-Day--selected {
+    background: var(--color-primary) !important;
+    border-radius: 8px;
+    color: #fff !important;
+  }
 `;
