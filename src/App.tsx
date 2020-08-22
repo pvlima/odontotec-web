@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Dashboard from './pages/Dashboard';
+import Schedules from './pages/Schedules';
 
 const App: React.FC = () => {
-  return <Dashboard />;
+  return <Schedules />;
 };
 
 export default App;
