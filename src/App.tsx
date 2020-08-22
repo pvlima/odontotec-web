@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 const App: React.FC = () => {
-  return <Login />;
+  return <Dashboard />;
 };
 
 export default App;
