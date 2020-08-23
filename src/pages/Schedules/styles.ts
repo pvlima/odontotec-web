@@ -14,8 +14,25 @@ export const ContainerHeader = styled.div`
   align-items: center;
 
   > div {
-    > h3 {
-      margin-bottom: 12px;
+    p {
+      display: flex;
+      align-items: center;
+      color: var(--color-secondary);
+      margin-top: 8px;
+
+      span {
+        display: flex;
+        align-items: center;
+        /* text-transform: capitalize; */
+      }
+
+      span + span::before {
+        content: '';
+        width: 1px;
+        height: 12px;
+        background-color: var(--color-secondary);
+        margin: 0 8px;
+      }
     }
   }
 
