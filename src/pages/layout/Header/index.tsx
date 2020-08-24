@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 import imgLogoSlim from '../../../assets/logo-slim.svg';
 
 import { Container, Content, Welcome, Menu, City } from './styles';
 
 const Header: React.FC = () => {
+  const { location } = useHistory();
+
   return (
     <Container>
       <Content>
@@ -16,24 +19,24 @@ const Header: React.FC = () => {
         </Welcome>
 
         <Menu>
-          <li className="active">
-            <a href="/">Início</a>
+          <li className={location.pathname === '/' ? 'active' : ''}>
+            <Link to="/">Início</Link>
           </li>
-          <li>
-            <a href="/">Atendimentos</a>
+          <li className={location.pathname === '/atendimentos' ? 'active' : ''}>
+            <Link to="/atendimentos">Atendimentos</Link>
           </li>
-          <li>
-            <a href="/">Pacientes</a>
+          <li className={location.pathname === '/pacientes' ? 'active' : ''}>
+            <Link to="/pacientes">Pacientes</Link>
           </li>
-          <li>
-            <a href="/">Usuários</a>
+          <li className={location.pathname === '/usuarios' ? 'active' : ''}>
+            <Link to="/usuarios">Usuários</Link>
           </li>
         </Menu>
 
         <City>
           <option value="saobenedito">São Benedito</option>
-          <option value="saobenedito">Carnaubal</option>
-          <option value="saobenedito">Guaraciaba</option>
+          <option value="carnaubal">Carnaubal</option>
+          <option value="guaraciaba">Guaraciaba</option>
         </City>
       </Content>
     </Container>
