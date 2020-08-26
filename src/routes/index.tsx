@@ -3,13 +3,15 @@ import { Switch, Route } from 'react-router-dom';
 
 import Dashboard from '../pages/Dashboard';
 import Login from '../pages/Login';
-import Schedules from '../pages/Schedules';
+import ListSchedules from '../pages/Schedules/List';
+import CreateSchedule from '../pages/Schedules/Create';
 
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Dashboard} />
     <Route path="/login" exact component={Login} />
-    <Route path="/atendimentos" exact component={Schedules} />
+    <Route path="/atendimentos" exact component={ListSchedules} />
+    <Route path="/atendimentos/novo" exact component={CreateSchedule} />
   </Switch>
 );
 

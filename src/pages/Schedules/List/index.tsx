@@ -6,6 +6,7 @@ import 'react-day-picker/lib/style.css';
 import { isToday, format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
+import { Link } from 'react-router-dom';
 import {
   Container,
   ContainerHeader,
@@ -15,7 +16,7 @@ import {
   Schedule,
   Calendar,
 } from './styles';
-import Header from '../layout/Header';
+import Header from '../../layout/Header';
 
 const Schedules: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
@@ -51,7 +52,7 @@ const Schedules: React.FC = () => {
               <span>{selectedDayAsObject.dayOfWeek}</span>
             </p>
           </div>
-          <a href="/">Novo agendamento</a>
+          <Link to="/atendimentos/novo">Novo agendamento</Link>
         </ContainerHeader>
 
         <Content>
