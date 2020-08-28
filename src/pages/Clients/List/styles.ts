@@ -6,6 +6,10 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 32px;
 
+  @media (max-width: 675px) {
+    padding: 16px;
+  }
+
   table {
     margin-top: 32px;
     width: 100%;

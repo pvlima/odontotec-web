@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ children, icon: Icon, title, label }) => {
       <h1>{children}</h1>
 
       <Title>
-        <Icon size={24} />
+        <Icon />
         <strong>{title}</strong>
       </Title>
 

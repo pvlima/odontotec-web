@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { FiMenu } from 'react-icons/fi';
 
 import imgLogoSlim from '../../../assets/logo-slim.svg';
 
-import { Container, Content, Welcome, Menu, City } from './styles';
+import { Container, Content, Menu, Mobile } from './styles';
 
 const Header: React.FC = () => {
   const { location } = useHistory();
+  const menuRef = useRef<HTMLUListElement>(null);
+
+  const handleButtonMenu = useCallback(() => {
+    if (menuRef.current) {
+      menuRef.current.classList.toggle('show');
+    }
+  }, []);
 
   return (
     <Container>
       <Content>
         <img src={imgLogoSlim} alt="Logo" />
 
-        <Welcome>
-          <span>Bem-vindo,</span>
-          <strong>Joeder Aguiar</strong>
-        </Welcome>
+        <Mobile onClick={handleButtonMenu}>
+          <span>Menu</span>
+          <FiMenu size={24} />
+        </Mobile>
 
-        <Menu>
+        <Menu ref={menuRef}>
           <li className={location.pathname === '/' ? 'active' : ''}>
             <Link to="/">Início</Link>
           </li>
@@ -28,16 +36,18 @@ const Header: React.FC = () => {
           <li className={location.pathname === '/pacientes' ? 'active' : ''}>
             <Link to="/pacientes">Pacientes</Link>
           </li>
-          <li className={location.pathname === '/usuarios' ? 'active' : ''}>
-            <Link to="/usuarios">Usuários</Link>
+          <li className="dropdown">
+            <span>Joeder</span>
+            <ul className="dropdown-content">
+              <li>
+                <Link to="/perfil">Meu perfil</Link>
+              </li>
+              <li>
+                <Link to="/logout">Sair</Link>
+              </li>
+            </ul>
           </li>
         </Menu>
-
-        <City>
-          <option value="saobenedito">São Benedito</option>
-          <option value="carnaubal">Carnaubal</option>
-          <option value="guaraciaba">Guaraciaba</option>
-        </City>
       </Content>
     </Container>
   );

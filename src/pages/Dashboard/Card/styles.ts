@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background-color: #fff;
   border-radius: 8px;
-  width: 292px;
-  height: 148px;
+  width: 100%;
+  max-width: 292px;
+  max-height: 148px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
 
   padding: 24px;
@@ -25,6 +26,20 @@ export const Container = styled.div`
     right: 24px;
     color: var(--color-secondary);
   }
+
+  @media (max-width: 675px) {
+    padding: 12px;
+
+    h1 {
+      font-size: 32px;
+    }
+  }
+
+  @media (max-width: 415px) {
+    h1 {
+      font-size: 24px;
+    }
+  }
 `;
 
 export const Title = styled.div`
@@ -33,11 +48,30 @@ export const Title = styled.div`
   color: var(--color-secondary);
 
   svg {
+    font-size: 24px;
     margin-right: 12px;
+    flex-shrink: 0;
   }
 
   strong {
     color: var(--color-secondary);
     font-size: 18px;
+  }
+
+  @media (max-width: 675px) {
+    font-size: 16px;
+
+    svg {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 415px) {
+    h1 {
+      font-size: 24px;
+    }
+    strong {
+      font-size: 14px;
+    }
   }
 `;

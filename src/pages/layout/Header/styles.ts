@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.header`
   width: 100%;
@@ -17,36 +17,110 @@ export const Content = styled.div`
 
   display: flex;
   align-items: center;
+
+  position: relative;
 `;
 
-export const Welcome = styled.div`
-  display: flex;
-  flex-direction: column;
+export const Mobile = styled.button`
+  display: none;
+  margin-left: auto;
+  background-color: transparent;
+  border: 0;
+  color: var(--color-normal);
 
-  margin-left: 32px;
-
-  span {
-    color: var(--color-secondary);
-    font-size: 14px;
-    line-height: 16px;
+  > svg {
+    margin-left: 8px;
   }
 
-  strong {
-    color: var(--color-primary);
-    font-size: 16px;
+  @media (max-width: 675px) {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const cssMenuDesktop = css`
+  margin-left: auto;
+
+  > li + li {
+    margin-left: 16px;
+  }
+
+  .dropdown {
+    cursor: pointer;
+    position: relative;
+
+    &:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      width: 150px;
+      background-color: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+      border-radius: 8px;
+
+      li {
+        list-style: none;
+        padding: 12px;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+
+  .dropdown > span::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: '';
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+  }
+`;
+
+const cssMenuMobile = css`
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 70px;
+  right: 32px;
+
+  width: 200px;
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+
+  &.show {
+    display: flex;
+  }
+
+  > li + li {
+    margin-left: 0;
+  }
+
+  li {
+    list-style: none;
+    padding: 12px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
   }
 `;
 
 export const Menu = styled.ul`
   display: flex;
-  margin-left: auto;
 
-  li {
+  > li {
     list-style: none;
-
-    & + li {
-      margin-left: 16px;
-    }
 
     a {
       color: var(--color-normal);
@@ -58,13 +132,10 @@ export const Menu = styled.ul`
       font-weight: 500;
     }
   }
-`;
 
-export const City = styled.select`
-  padding: 12px 24px;
-  border: 2px solid var(--color-info);
-  border-radius: 8px;
-  margin-left: 32px;
+  ${cssMenuDesktop}
 
-  color: var(--color-primary);
+  @media (max-width: 675px) {
+    ${cssMenuMobile}
+  }
 `;

@@ -56,6 +56,34 @@ const Schedules: React.FC = () => {
         </ContainerHeader>
 
         <Content>
+          <Calendar>
+            <DayPicker
+              weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
+              fromMonth={new Date()}
+              disabledDays={[{ daysOfWeek: [0] }]}
+              modifiers={{
+                available: { daysOfWeek: [1, 2, 3, 4, 5, 6] },
+              }}
+              onDayClick={handleDateChange}
+              onMonthChange={handleMonthChange}
+              selectedDays={selectedDay}
+              months={[
+                'Janeiro',
+                'Fevereiro',
+                'Março',
+                'Abril',
+                'Maio',
+                'Junho',
+                'Julho',
+                'Agosto',
+                'Setembro',
+                'Outubro',
+                'Novembro',
+                'Dezembro',
+              ]}
+            />
+          </Calendar>
+
           <Appointments>
             <h4>Atendimento a seguir</h4>
             <NextAppointment>
@@ -138,34 +166,6 @@ const Schedules: React.FC = () => {
               </div>
             </Schedule>
           </Appointments>
-
-          <Calendar>
-            <DayPicker
-              weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-              fromMonth={new Date()}
-              disabledDays={[{ daysOfWeek: [0] }]}
-              modifiers={{
-                available: { daysOfWeek: [1, 2, 3, 4, 5, 6] },
-              }}
-              onDayClick={handleDateChange}
-              onMonthChange={handleMonthChange}
-              selectedDays={selectedDay}
-              months={[
-                'Janeiro',
-                'Fevereiro',
-                'Março',
-                'Abril',
-                'Maio',
-                'Junho',
-                'Julho',
-                'Agosto',
-                'Setembro',
-                'Outubro',
-                'Novembro',
-                'Dezembro',
-              ]}
-            />
-          </Calendar>
         </Content>
       </Container>
     </>

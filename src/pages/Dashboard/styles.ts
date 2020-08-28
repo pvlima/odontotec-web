@@ -5,6 +5,10 @@ export const Container = styled.div`
   max-width: 1024px;
   margin: 0 auto;
   padding: 32px;
+
+  @media (max-width: 675px) {
+    padding: 24px;
+  }
 `;
 
 export const Overview = styled.section`
@@ -13,6 +17,12 @@ export const Overview = styled.section`
 
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 675px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
   }
 `;
 
@@ -36,5 +46,13 @@ export const Birthdays = styled.section`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 32px;
+
+    @media (max-width: 675px) {
+      gap: 16px;
+    }
+
+    @media (max-width: 415px) {
+      grid-template-columns: 1fr;
+    }
   }
 `;
