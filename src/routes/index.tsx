@@ -11,16 +11,12 @@ import ListClients from '../pages/Clients/List';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Dashboard} />
-    <Route path="/login" exact component={Login} />
-    <Route path="/atendimentos" exact component={ListSchedules} isPrivate />
-    <Route
-      path="/atendimentos/novo"
-      exact
-      component={CreateSchedule}
-      isPrivate
-    />
-    <Route path="/pacientes" exact component={ListClients} isPrivate />
+    <Route path="/" exact component={Login} />
+
+    <Route path="/dashboard" component={Dashboard} isPrivate />
+    <Route path="/atendimentos" component={ListSchedules} isPrivate />
+    <Route path="/atendimentos/novo" component={CreateSchedule} isPrivate />
+    <Route path="/pacientes" component={ListClients} isPrivate />
   </Switch>
 );
 
