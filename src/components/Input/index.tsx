@@ -3,8 +3,10 @@ import React, {
   useCallback,
   useState,
   useRef,
+  useEffect,
 } from 'react';
 import { IconBaseProps } from 'react-icons/lib';
+import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
@@ -13,10 +15,20 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({ icon: Icon, ...rest }) => {
+const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+
+  const { fieldName, defaultValue, registerField } = useField(name);
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [registerField, fieldName]);
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
@@ -34,6 +46,7 @@ const Input: React.FC<InputProps> = ({ icon: Icon, ...rest }) => {
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         ref={inputRef}
+        defaultValue={defaultValue}
         {...rest}
       />
     </Container>
