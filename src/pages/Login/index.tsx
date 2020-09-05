@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-// import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 
@@ -17,12 +17,14 @@ interface SignInFormData {
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
+  const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       await signIn(data);
+      history.push('/dashboard');
     },
-    [signIn],
+    [signIn, history],
   );
 
   return (
@@ -33,7 +35,7 @@ const Login: React.FC = () => {
         <Form onSubmit={handleSubmit}>
           <h3>Faça seu login</h3>
 
-          <Input name="email" icon={FiMail} placeholder="E-mail" />
+          <Input name="email" type="email" icon={FiMail} placeholder="E-mail" />
           <Input
             name="password"
             type="password"

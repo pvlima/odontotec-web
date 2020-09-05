@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from 'react';
 import { Link } from 'react-router-dom';
 import { differenceInYears } from 'date-fns';
 
+import { FiSearch } from 'react-icons/fi';
 import Header from '../../layout/Header';
 
-import { Container, ContainerHeader } from './styles';
+import { Container, ContainerHeader, SearchClient } from './styles';
 import api from '../../../services/api';
+import Input from '../../../components/Input';
 
 interface IClientData {
   id: string;
@@ -17,27 +25,40 @@ interface IClientData {
 }
 
 const List: React.FC = () => {
+  const inputSearchRef = useRef<HTMLInputElement>(null);
   const [clients, setClients] = useState<IClientData[]>([]);
 
   useEffect(() => {
     const loadClients = async () => {
-      const response = await api.get<IClientData[]>('/clients', {
-        headers: {
-          authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTkyMjkxNDIsImV4cCI6MTU5OTMxNTU0Miwic3ViIjoiYWYzZDVhM2QtYTM2My00NTVhLTg5ZTMtN2UzMTg2ZjI4YjA5In0.3YzO5L23yc4oZXnmv0x162CjOtqwbA4nPnA10ilUtV8',
-        },
-      });
+      const response = await api.get<IClientData[]>('/clients');
 
-      const data = response.data.map(item => ({
-        ...item,
-        age: item.birth && differenceInYears(new Date(), new Date(item.birth)),
-      }));
-
-      setClients(data);
+      setClients(response.data);
     };
 
     loadClients();
   }, []);
+
+  const handleSearchClients = useCallback(async () => {
+    const searchValue = inputSearchRef.current?.value;
+
+    if (!searchValue) return;
+
+    const response = await api.get<IClientData[]>('/clients', {
+      params: {
+        name: searchValue,
+      },
+    });
+
+    setClients(response.data);
+  }, []);
+
+  const clientsHandled = useMemo(() => {
+    return clients.map(client => ({
+      ...client,
+      age:
+        client.birth && differenceInYears(new Date(), new Date(client.birth)),
+    }));
+  }, [clients]);
 
   return (
     <>
@@ -48,26 +69,35 @@ const List: React.FC = () => {
           <Link to="/atendimentos/novo">Novo paciente</Link>
         </ContainerHeader>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Telefone</th>
-              <th>Idade</th>
-              <th>Cidade</th>
-            </tr>
-          </thead>
-          <tbody>
-            {clients.map(client => (
-              <tr key={client.id}>
-                <td>{client.name}</td>
-                <td>{client.phone}</td>
-                <td>{client.age ? client.age : '--'}</td>
-                <td>{client.city ? client.city : '--'}</td>
+        <SearchClient>
+          <input ref={inputSearchRef} placeholder="Buscar pacientes" />
+          <button type="button" onClick={handleSearchClients}>
+            <FiSearch />
+          </button>
+        </SearchClient>
+
+        <div className="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Idade</th>
+                <th>Cidade</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {clientsHandled.map(client => (
+                <tr key={client.id}>
+                  <td className="text-nowrap">{client.name}</td>
+                  <td>{client.phone}</td>
+                  <td>{client.age ? client.age : '--'}</td>
+                  <td>{client.city ? client.city : '--'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Container>
     </>
   );
