@@ -47,3 +47,10 @@ export const Container = styled.div<ContainerProps>`
     }
   }
 `;
+
+export const ErrorMessage = styled.p`
+  text-align: left;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  color: var(--color-error);
+`;

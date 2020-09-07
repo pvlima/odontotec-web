@@ -27,7 +27,7 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
   useEffect(() => {
     const time = setTimeout(() => {
       removeToast(message.id);
-    }, 3000);
+    }, 5000);
 
     return () => {
       clearTimeout(time);

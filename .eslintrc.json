@@ -30,6 +30,7 @@
   ],
   "rules": {
     "jsx-a11y/label-has-associated-control": "off",
+    "no-unused-expressions": "off",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
