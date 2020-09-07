@@ -9,6 +9,7 @@ import { Container, Content } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 interface SignInFormData {
   email: string;
@@ -17,14 +18,33 @@ interface SignInFormData {
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
+  const { addToast } = useToast();
   const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
-      await signIn(data);
-      history.push('/dashboard');
+      try {
+        await signIn(data);
+        history.push('/dashboard');
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Carai',
+          description: 'mano',
+        });
+        addToast({
+          type: 'info',
+          title: 'Mano',
+          description: 'sou foda!',
+        });
+        addToast({
+          type: 'success',
+          title: 'Show',
+          description: 'de bola',
+        });
+      }
     },
-    [signIn, history],
+    [signIn, history, addToast],
   );
 
   return (
