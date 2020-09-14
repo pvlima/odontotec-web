@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 700px;
+  max-width: 1024px;
 
   margin: 0 auto;
   padding: 32px;
@@ -10,12 +10,18 @@ export const Container = styled.div`
   > div {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
 
     button {
-      background-color: transparent;
       border: 0;
       display: flex;
       align-items: center;
+    }
+
+    .goBack {
+      background-color: transparent;
+
       margin-right: 16px;
       color: var(--color-primary);
 
@@ -23,9 +29,12 @@ export const Container = styled.div`
         margin-right: 4px;
       }
     }
-  }
 
-  form {
-    margin-top: 32px;
+    .delete {
+      padding: 12px;
+      border-radius: 8px;
+      background-color: var(--color-error);
+      color: #fff;
+    }
   }
 `;

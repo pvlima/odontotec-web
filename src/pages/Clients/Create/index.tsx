@@ -12,6 +12,7 @@ import {
   FiGift,
   FiMapPin,
   FiMap,
+  FiChevronLeft,
 } from 'react-icons/fi';
 
 import { Container } from './styles';
@@ -83,14 +84,20 @@ const Create: React.FC = () => {
         }
       }
     },
-    [addToast],
+    [addToast, history],
   );
 
   return (
     <>
       <Header />
       <Container>
-        <h3>Cadastrar novo paciente</h3>
+        <div>
+          <button type="button" onClick={() => history.goBack()}>
+            <FiChevronLeft size={20} />
+            Voltar
+          </button>
+          <h3>Cadastrar novo paciente</h3>
+        </div>
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <Input

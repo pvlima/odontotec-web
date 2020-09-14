@@ -1,12 +1,9 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AxiosInstance } from 'axios';
-import api from '../services/api';
 import { useToast } from './toast';
 import { useAuth } from './auth';
 
 interface ContextData {
-  api: AxiosInstance;
   setStatus(status: number): void;
 }
 
@@ -36,6 +33,17 @@ const ApiProvider: React.FC = ({ children }) => {
         history.push('/');
       }
 
+      if (code === 404) {
+        addToast({
+          type: 'error',
+          title: 'Erro 404',
+          description:
+            'Não foi possível encontrar o que você estava procurando',
+        });
+
+        history.goBack();
+      }
+
       if (code === 500) {
         addToast({
           type: 'error',
@@ -49,9 +57,7 @@ const ApiProvider: React.FC = ({ children }) => {
   );
 
   return (
-    <ApiContext.Provider value={{ api, setStatus }}>
-      {children}
-    </ApiContext.Provider>
+    <ApiContext.Provider value={{ setStatus }}>{children}</ApiContext.Provider>
   );
 };
 

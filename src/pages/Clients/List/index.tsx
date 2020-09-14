@@ -104,7 +104,9 @@ const List: React.FC = () => {
             <tbody>
               {clientsHandled.map(client => (
                 <tr key={client.id}>
-                  <td className="text-nowrap">{client.name}</td>
+                  <td className="text-nowrap">
+                    <Link to={`pacientes/${client.id}`}>{client.name}</Link>
+                  </td>
                   <td>{client.phone}</td>
                   <td>{client.age ? client.age : '--'}</td>
                   <td>{client.city ? client.city : '--'}</td>
