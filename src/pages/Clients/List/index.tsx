@@ -11,10 +11,11 @@ import { differenceInYears } from 'date-fns';
 import { FiSearch } from 'react-icons/fi';
 import Header from '../../layout/Header';
 
-import { Container, ContainerHeader, SearchClient } from './styles';
+import { Container, ContainerHeader } from './styles';
 import { useToast } from '../../../hooks/toast';
 import { useApi } from '../../../hooks/api';
 import api from '../../../services/api';
+import InputSearch from '../../../components/InputSearch';
 
 interface IClientData {
   id: string;
@@ -84,12 +85,11 @@ const List: React.FC = () => {
           <Link to="/pacientes/novo">Novo paciente</Link>
         </ContainerHeader>
 
-        <SearchClient>
-          <input ref={inputSearchRef} placeholder="Buscar pacientes" />
-          <button type="button" onClick={handleSearchClients}>
-            <FiSearch />
-          </button>
-        </SearchClient>
+        <InputSearch
+          ref={inputSearchRef}
+          onSearch={handleSearchClients}
+          placeholder="Buscar pacientes"
+        />
 
         <div className="table-responsive">
           <table>

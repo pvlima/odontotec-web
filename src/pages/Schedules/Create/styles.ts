@@ -33,12 +33,6 @@ export const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
 
-  select {
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 8px;
-  }
-
   input {
     background-color: #fff;
   }
