@@ -6,8 +6,9 @@ import React, {
   useState,
 } from 'react';
 
-import { FiCalendar, FiClock } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiFileText } from 'react-icons/fi';
 import { Form } from '@unform/web';
+import { useHistory } from 'react-router-dom';
 import Header from '../../layout/Header';
 
 import {
@@ -46,6 +47,7 @@ const Create: React.FC = () => {
   const [clients, setClients] = useState<IClientData[]>([]);
   const [dentists, setDentists] = useState<IDentistData[]>([]);
   const { addToast } = useToast();
+  const history = useHistory();
 
   useEffect(() => {
     const loadDentists = async () => {
@@ -60,9 +62,28 @@ const Create: React.FC = () => {
     loadDentists();
   }, []);
 
-  const handleSubmit = useCallback(data => {
-    console.log(data);
-  }, []);
+  const handleSubmit = useCallback(
+    async data => {
+      try {
+        await api.post('/schedules', data);
+
+        addToast({
+          type: 'success',
+          title: 'Agendamento marcado com sucesso!',
+          description: `Agendamento está marcado para `,
+        });
+
+        history.push('/atendimentos');
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao marcar agendamento!',
+          description: `Tente novamente mais tarde`,
+        });
+      }
+    },
+    [addToast, history],
+  );
 
   const handleSearchClients = useCallback(async () => {
     try {
@@ -132,6 +153,17 @@ const Create: React.FC = () => {
                   name="time"
                   type="time"
                   placeholder="Horário"
+                />
+              </label>
+
+              <label htmlFor="procedure">
+                <span>Procedimento que será realizado</span>
+                <Input
+                  icon={FiFileText}
+                  id="procedure"
+                  name="procedure"
+                  type="text"
+                  placeholder="Procedimento"
                 />
               </label>
             </LeftSide>
