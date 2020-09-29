@@ -150,6 +150,11 @@ const Schedules: React.FC = () => {
             )}
 
             <h4 className="morning">Manhã</h4>
+
+            {morningSchedules.length === 0 && (
+              <p>Nenhum agendamento neste período</p>
+            )}
+
             {morningSchedules.map(schedule => (
               <Schedule>
                 <span>
@@ -164,6 +169,11 @@ const Schedules: React.FC = () => {
             ))}
 
             <h4 className="afternoon">Tarde</h4>
+
+            {afternoonSchedules.length === 0 && (
+              <p>Nenhum agendamento neste período</p>
+            )}
+
             {afternoonSchedules.map(schedule => (
               <Schedule>
                 <span>
