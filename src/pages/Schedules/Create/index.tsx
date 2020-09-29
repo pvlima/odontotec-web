@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { FiCalendar, FiClock } from 'react-icons/fi';
 import { Form } from '@unform/web';
@@ -30,10 +36,29 @@ interface IClientData {
   age?: number;
 }
 
+interface IDentistData {
+  id: string;
+  name: string;
+}
+
 const Create: React.FC = () => {
   const inputSearchRef = useRef<HTMLInputElement>(null);
   const [clients, setClients] = useState<IClientData[]>([]);
+  const [dentists, setDentists] = useState<IDentistData[]>([]);
   const { addToast } = useToast();
+
+  useEffect(() => {
+    const loadDentists = async () => {
+      const response = await api.get<IDentistData[]>('/dentists');
+      const loadedDentists = response.data.map(d => {
+        return { id: d.id, name: d.name };
+      });
+
+      setDentists(loadedDentists);
+    };
+
+    loadDentists();
+  }, []);
 
   const handleSubmit = useCallback(data => {
     console.log(data);
@@ -67,6 +92,12 @@ const Create: React.FC = () => {
     });
   }, [clients]);
 
+  const formattedDentists = useMemo(() => {
+    return dentists.map(dentist => {
+      return { value: dentist.id, label: dentist.name };
+    });
+  }, [dentists]);
+
   return (
     <>
       <Header />
@@ -77,12 +108,9 @@ const Create: React.FC = () => {
           <Content>
             <LeftSide>
               <SelectForm
-                name="provider"
+                name="user_id"
                 label="Selecione quem vai atender"
-                options={[
-                  { value: 'joeder', label: 'Dr Joeder' },
-                  { value: 'karla', label: 'Dra Karla' },
-                ]}
+                options={formattedDentists}
               />
 
               <label htmlFor="date">
@@ -119,7 +147,7 @@ const Create: React.FC = () => {
                 <User>
                   <InputCheck
                     type="radio"
-                    name="user_id"
+                    name="client_id"
                     options={formattedClients}
                   />
                 </User>
