@@ -1,9 +1,9 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { FiClock } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
-import { isToday, format } from 'date-fns';
+import { isToday, format, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { Link } from 'react-router-dom';
@@ -17,19 +17,50 @@ import {
   Calendar,
 } from './styles';
 import Header from '../../layout/Header';
+import api from '../../../services/api';
+
+interface ISchedule {
+  id: string;
+  date: Date;
+  formattedHour: string;
+  procedure: string;
+  client: {
+    name: string;
+    phone: string;
+  };
+}
 
 const Schedules: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [schedules, setSchedules] = useState<ISchedule[]>([]);
+
+  useEffect(() => {
+    const loadSchedules = async () => {
+      const parsedDate = format(selectedDay, 'yyyy-MM-dd');
+      const response = await api.get<ISchedule[]>('/schedules', {
+        params: { date: parsedDate },
+      });
+
+      const data = response.data.map(item => {
+        const scheduleDate = new Date(item.date);
+
+        return {
+          ...item,
+          date: new Date(item.date),
+          formattedHour: format(scheduleDate, 'HH:mm'),
+        };
+      });
+
+      setSchedules(data);
+    };
+
+    loadSchedules();
+  }, [selectedDay]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
       setSelectedDay(day);
     }
-  }, []);
-
-  const handleMonthChange = useCallback((month: Date) => {
-    setCurrentMonth(month);
   }, []);
 
   const selectedDayAsObject = useMemo(() => {
@@ -38,6 +69,24 @@ const Schedules: React.FC = () => {
     const dayOfWeek = format(selectedDay, 'cccc', { locale: ptBR });
     return { today, date, dayOfWeek };
   }, [selectedDay]);
+
+  const morningSchedules = useMemo(() => {
+    return schedules.filter(schedule => {
+      return schedule.date.getHours() < 12;
+    });
+  }, [schedules]);
+
+  const afternoonSchedules = useMemo(() => {
+    return schedules.filter(schedule => {
+      return schedule.date.getHours() >= 12;
+    });
+  }, [schedules]);
+
+  const nextSchedule = useMemo(() => {
+    return schedules.find(schedule => {
+      return isAfter(schedule.date, new Date());
+    });
+  }, [schedules]);
 
   return (
     <>
@@ -65,7 +114,6 @@ const Schedules: React.FC = () => {
                 available: { daysOfWeek: [1, 2, 3, 4, 5, 6] },
               }}
               onDayClick={handleDateChange}
-              onMonthChange={handleMonthChange}
               selectedDays={selectedDay}
               months={[
                 'Janeiro',
@@ -85,86 +133,49 @@ const Schedules: React.FC = () => {
           </Calendar>
 
           <Appointments>
-            <h4>Atendimento a seguir</h4>
-            <NextAppointment>
-              <p>
-                <strong>Paulo Vitor Correia Lima</strong>
-                <span>Manutenção do Aparelho</span>
-              </p>
-              <div>
-                <FiClock size={20} />
-                <span>08:30</span>
-              </div>
-            </NextAppointment>
+            {selectedDayAsObject.today && nextSchedule && (
+              <>
+                <h4>Atendimento a seguir</h4>
+                <NextAppointment>
+                  <p>
+                    <strong>{nextSchedule.client.name}</strong>
+                    <span>{nextSchedule.procedure}</span>
+                  </p>
+                  <div>
+                    <FiClock size={20} />
+                    <span>{nextSchedule.formattedHour}</span>
+                  </div>
+                </NextAppointment>
+              </>
+            )}
 
             <h4 className="morning">Manhã</h4>
-            <Schedule>
-              <span>
-                <FiClock size={20} />
-                09:00
-              </span>
-              <div>
-                <strong>Carlos Augusto de Sousa</strong>
-                <span>Canal do dente 47</span>
-              </div>
-            </Schedule>
-
-            <Schedule>
-              <span>
-                <FiClock size={20} />
-                10:00
-              </span>
-              <div>
-                <strong>Geovana Sales</strong>
-                <span>Extração do dente siso</span>
-              </div>
-            </Schedule>
-
-            <Schedule>
-              <span>
-                <FiClock size={20} />
-                11:00
-              </span>
-              <div>
-                <strong>Patrik Alves Correia</strong>
-                <span>Restauração de 3 dentes</span>
-              </div>
-            </Schedule>
+            {morningSchedules.map(schedule => (
+              <Schedule>
+                <span>
+                  <FiClock size={20} />
+                  {schedule.formattedHour}
+                </span>
+                <div>
+                  <strong>{schedule.client.name}</strong>
+                  {schedule.procedure && <span>{schedule.procedure}</span>}
+                </div>
+              </Schedule>
+            ))}
 
             <h4 className="afternoon">Tarde</h4>
-
-            <Schedule>
-              <span>
-                <FiClock size={20} />
-                14:00
-              </span>
-              <div>
-                <strong>Natan Cavalcante</strong>
-                <span>Manutenção do aparelho</span>
-              </div>
-            </Schedule>
-
-            <Schedule>
-              <span>
-                <FiClock size={20} />
-                15:30
-              </span>
-              <div>
-                <strong>Jonas Morais de Almeida</strong>
-                <span>Canal do dente 39</span>
-              </div>
-            </Schedule>
-
-            <Schedule>
-              <span>
-                <FiClock size={20} />
-                16:15
-              </span>
-              <div>
-                <strong>Miguel Victor</strong>
-                <span>Clareamento dentário</span>
-              </div>
-            </Schedule>
+            {afternoonSchedules.map(schedule => (
+              <Schedule>
+                <span>
+                  <FiClock size={20} />
+                  {schedule.formattedHour}
+                </span>
+                <div>
+                  <strong>{schedule.client.name}</strong>
+                  {schedule.procedure && <span>{schedule.procedure}</span>}
+                </div>
+              </Schedule>
+            ))}
           </Appointments>
         </Content>
       </Container>
