@@ -8,7 +8,6 @@ import React, {
 import { Link } from 'react-router-dom';
 import { differenceInYears } from 'date-fns';
 
-import { FiSearch } from 'react-icons/fi';
 import Header from '../../layout/Header';
 
 import { Container, ContainerHeader } from './styles';

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiMenu } from 'react-icons/fi';
 

@@ -1,4 +1,4 @@
-import React, { forwardRef, InputHTMLAttributes, useCallback } from 'react';
+import React, { forwardRef, InputHTMLAttributes } from 'react';
 import { FiSearch } from 'react-icons/fi';
 
 import { Container } from './styles';
