@@ -5,10 +5,12 @@ import { FiMenu } from 'react-icons/fi';
 import imgLogoSlim from '../../../assets/logo-slim.svg';
 
 import { Container, Content, Menu, Mobile } from './styles';
+import { useAuth } from '../../../hooks/auth';
 
 const Header: React.FC = () => {
   const { location } = useHistory();
   const menuRef = useRef<HTMLUListElement>(null);
+  const { user, signOut } = useAuth();
 
   const handleButtonMenu = useCallback(() => {
     if (menuRef.current) {
@@ -37,13 +39,15 @@ const Header: React.FC = () => {
             <Link to="/pacientes">Pacientes</Link>
           </li>
           <li className="dropdown">
-            <span>Joeder</span>
+            <span>{user.name}</span>
             <ul className="dropdown-content">
               <li>
                 <Link to="/perfil">Meu perfil</Link>
               </li>
               <li>
-                <Link to="/logout">Sair</Link>
+                <button type="button" onClick={() => signOut()}>
+                  Sair
+                </button>
               </li>
             </ul>
           </li>

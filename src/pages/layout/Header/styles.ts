@@ -69,6 +69,12 @@ const cssMenuDesktop = css`
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
         }
+
+        button {
+          border: 0;
+          background-color: transparent;
+          color: var(--color-text);
+        }
       }
     }
   }
