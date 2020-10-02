@@ -1,12 +1,13 @@
+/* eslint-disable no-alert */
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { FiClock } from 'react-icons/fi';
+import { FiClock, FiTrash2 } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
 import { isToday, format, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Container,
   ContainerHeader,
@@ -18,6 +19,7 @@ import {
 } from './styles';
 import Header from '../../layout/Header';
 import api from '../../../services/api';
+import { useToast } from '../../../hooks/toast';
 
 interface ISchedule {
   id: string;
@@ -33,6 +35,7 @@ interface ISchedule {
 const Schedules: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
+  const { addToast } = useToast();
 
   useEffect(() => {
     const loadSchedules = async () => {
@@ -62,6 +65,26 @@ const Schedules: React.FC = () => {
       setSelectedDay(day);
     }
   }, []);
+
+  const handleDeleteSchedule = useCallback(
+    async (id: string) => {
+      // eslint-disable-next-line no-restricted-globals
+      if (confirm('Tem certeza que deseja excluir este atendimento?')) {
+        await api.delete(`/schedules/${id}`);
+
+        addToast({
+          type: 'success',
+          title: 'Atendimento excluído com sucesso!',
+          description: 'Todos os dados do agendamento foram excluídos',
+        });
+
+        setSchedules(state => {
+          return state.filter(item => item.id !== id);
+        });
+      }
+    },
+    [addToast],
+  );
 
   const selectedDayAsObject = useMemo(() => {
     const today = isToday(selectedDay);
@@ -165,6 +188,10 @@ const Schedules: React.FC = () => {
                   <strong>{schedule.client.name}</strong>
                   {schedule.procedure && <span>{schedule.procedure}</span>}
                 </div>
+                <FiTrash2
+                  size={20}
+                  onClick={() => handleDeleteSchedule(schedule.id)}
+                />
               </Schedule>
             ))}
 
@@ -184,6 +211,10 @@ const Schedules: React.FC = () => {
                   <strong>{schedule.client.name}</strong>
                   {schedule.procedure && <span>{schedule.procedure}</span>}
                 </div>
+                <FiTrash2
+                  size={20}
+                  onClick={() => handleDeleteSchedule(schedule.id)}
+                />
               </Schedule>
             ))}
           </Appointments>

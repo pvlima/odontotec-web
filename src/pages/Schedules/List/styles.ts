@@ -203,6 +203,7 @@ export const NextAppointment = styled.div`
 
 export const Schedule = styled.div`
   display: flex;
+  align-items: center;
 
   & + div {
     margin-top: 8px;
@@ -233,5 +234,11 @@ export const Schedule = styled.div`
       font-size: 14px;
       margin-top: 8px;
     }
+  }
+
+  > svg {
+    margin-left: 12px;
+    color: var(--color-error);
+    cursor: pointer;
   }
 `;

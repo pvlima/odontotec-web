@@ -10,6 +10,17 @@ import Card from './Card';
 import CardBirth from './CardBirth';
 import api from '../../services/api';
 
+interface CountSchedules {
+  id: string;
+  dentistName: string;
+  countSchedules: number;
+}
+
+interface IDashboardInfo {
+  countClients: number;
+  schedules: CountSchedules[];
+}
+
 interface IBirthday {
   id: string;
   name: string;
@@ -20,9 +31,17 @@ interface IBirthday {
 }
 
 const Dashboard: React.FC = () => {
+  const [dashboardInfo, setDashboardInfo] = useState<IDashboardInfo>();
   const [birthdays, setBirthdays] = useState<IBirthday[]>([]);
 
   useEffect(() => {
+    const loadDashboardInfo = async () => {
+      const response = await api.get<IDashboardInfo>('/dashboard/info');
+      const { data } = response;
+
+      setDashboardInfo(data);
+    };
+
     const loadBirthdays = async () => {
       const response = await api.get<IBirthday[]>('/clients/birthdays');
       const formattedBirthdays = response.data.map(birth => {
@@ -35,6 +54,7 @@ const Dashboard: React.FC = () => {
       setBirthdays(formattedBirthdays);
     };
 
+    loadDashboardInfo();
     loadBirthdays();
   }, []);
 
@@ -47,21 +67,27 @@ const Dashboard: React.FC = () => {
     <>
       <Header />
       <Container>
-        <Overview>
-          <h3>Visão Geral</h3>
+        {dashboardInfo && (
+          <Overview>
+            <h3>Visão Geral</h3>
 
-          <div className="content">
-            <Card icon={FiUsers} title="Pacientes cadastrados">
-              248
-            </Card>
-            <Card icon={FiTag} title="Agendamentos marcados" label="Dr. Joeder">
-              43
-            </Card>
-            <Card icon={FiTag} title="Agendamentos marcados" label="Dra. Karla">
-              29
-            </Card>
-          </div>
-        </Overview>
+            <div className="content">
+              <Card icon={FiUsers} title="Pacientes cadastrados">
+                {dashboardInfo.countClients}
+              </Card>
+              {dashboardInfo.schedules.map(schedule => (
+                <Card
+                  key={schedule.id}
+                  icon={FiTag}
+                  title="Agendamentos marcados"
+                  label={schedule.dentistName}
+                >
+                  {schedule.countSchedules}
+                </Card>
+              ))}
+            </div>
+          </Overview>
+        )}
 
         <Birthdays>
           <div className="label">
