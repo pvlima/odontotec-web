@@ -7,7 +7,7 @@ import 'react-day-picker/lib/style.css';
 import { isToday, format, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Container,
   ContainerHeader,
