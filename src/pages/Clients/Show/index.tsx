@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { FormHandles, Scope } from '@unform/core';
@@ -164,8 +166,6 @@ const Show: React.FC = () => {
             procedure: t.procedure,
           };
         });
-        console.log(parsedRecords);
-        // return;
 
         await api.delete(`/client-records/${id}`);
         await api.post('/client-records', {
