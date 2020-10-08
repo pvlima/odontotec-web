@@ -22,8 +22,8 @@ const InputCheck: React.FC<Props> = ({ type, name, options, ...rest }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       getValue: (refs: HTMLInputElement[]): any => {
         const checkedRefs = refs
-          .filter(ref => ref.checked)
-          .map(ref => ref.value);
+          .filter(ref => ref?.checked || false)
+          .map(ref => ref?.value || undefined);
 
         if (type === 'radio') {
           return checkedRefs[0];

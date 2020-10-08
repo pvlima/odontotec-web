@@ -160,12 +160,14 @@ const Show: React.FC = () => {
   const handleCreateClientRecords = useCallback(
     async (data: any) => {
       try {
-        const parsedRecords = data.records.map((t: any) => {
-          return {
-            is_finished: !!t.is_finished.length,
-            procedure: t.procedure,
-          };
-        });
+        const parsedRecords = data.records
+          .map((t: any) => {
+            return {
+              is_finished: !!t.is_finished.length,
+              procedure: t.procedure,
+            };
+          })
+          .filter((t: any) => t.procedure !== undefined);
 
         await api.delete(`/client-records/${id}`);
         await api.post('/client-records', {
@@ -269,6 +271,7 @@ const Show: React.FC = () => {
                       name="procedure"
                       placeholder="Procedimento"
                       defaultValue={record.procedure}
+                      required
                     />
                     <button
                       type="button"
