@@ -8,7 +8,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   options: {
     id: string;
-    value: string;
+    value?: string;
   }[];
 }
 

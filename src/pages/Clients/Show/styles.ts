@@ -38,3 +38,40 @@ export const Container = styled.div`
     }
   }
 `;
+
+export const ClientRecordsSection = styled.section`
+  margin-top: 32px;
+`;
+
+export const ClientRecordsContent = styled.div`
+  margin-top: 16px;
+
+  .input-control {
+    display: flex;
+    align-items: center;
+
+    & + div {
+      margin-top: 8px;
+    }
+
+    div + div {
+      margin-left: 12px;
+      flex: 1;
+    }
+
+    .button_remove_record {
+      border: 0;
+      margin-left: 12px;
+      color: var(--color-error);
+    }
+  }
+
+  .button_add {
+    border: 0;
+    background-color: var(--color-success);
+    padding: 8px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+  }
+`;

@@ -13,6 +13,7 @@ import {
   FiMapPin,
   FiMap,
   FiChevronLeft,
+  FiEdit,
 } from 'react-icons/fi';
 
 import { Container } from './styles';
@@ -121,6 +122,11 @@ const Create: React.FC = () => {
           />
           <Input name="address" icon={FiMapPin} placeholder="Endereço" />
           <Input name="city" icon={FiMap} placeholder="Cidade" />
+          <Input
+            name="general_info"
+            icon={FiEdit}
+            placeholder="Obervações gerais"
+          />
 
           <Button type="submit">Cadastrar</Button>
         </Form>
